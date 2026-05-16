@@ -115,7 +115,7 @@ AWS_ACCESS_KEY_ID=mock_key AWS_SECRET_ACCESS_KEY=mock_secret aws dynamodb create
 terraform init -migrate-state
 ```
 
-**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. 
+**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state [...]
 
 ## 🛑 Post-Lab Deconstruction & Cleanup
 
