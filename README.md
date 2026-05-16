@@ -145,3 +145,61 @@ aws s3 ls
 ```
 
 This architecture enables your team to develop and test infrastructure locally before confidently deploying to production AWS accounts.
+
+## 🗂️ Lesson 6: GitOps Automation with GitHub Actions CI/CD Pipelines
+
+**Target Skill:** Production-grade deployment automation. Engineering an active event tracking engine to safely validate configurations locally via branch testing and apply live modifications upon repository merges.
+
+### 🔒 Pre-Flight Credential Safe (GitHub Configuration)
+
+Go to your GitHub repository → **Settings → Secrets and variables → Actions**, and add two Repository Secrets:
+
+- **AWS_ACCESS_KEY_ID:** Your live programmatic production access key
+- **AWS_SECRET_ACCESS_KEY:** Your live programmatic production secret key
+
+These credentials will be automatically injected into the GitHub Actions runner environment during pipeline execution, enabling secure authentication to your production AWS account.
+
+### 🏁 Final Exam Certification Run
+
+Follow these steps to complete the DevOps transformation course:
+
+#### Step 1: Create Feature Branch
+```bash
+git checkout -b feature/lesson-6-test
+```
+
+#### Step 2: Push Changes & Create Pull Request
+Push your branch changes to GitHub and launch a Pull Request against the `main` branch.
+
+#### Step 3: Watch the GitHub Actions Tab
+The runner will:
+- Capture the PR trigger event
+- Deploy LocalStack inside its isolated runner layer
+- Invoke the localstack backend configuration
+- Execute a complete Terraform plan validation check
+- Verify all infrastructure definitions against mock AWS
+
+This validation phase ensures your Terraform syntax is correct and configurations are sound before touching production.
+
+#### Step 4: Merge to Main
+Click **Merge** on your Pull Request.
+
+#### Step 5: Production Deployment Triggered
+The pipeline re-evaluates the merge push context and:
+- Automatically deactivates the mock LocalStack layers
+- Maps to your live AWS account configurations using repository secrets
+- Triggers real cloud architecture build on production AWS
+- Applies infrastructure changes to your live environment
+
+### 🎓 Congratulations!
+
+You have completed the entire DevOps transformation course! Your infrastructure-as-code pipeline now seamlessly:
+- ✅ Validates changes locally on feature branches
+- ✅ Tests configurations against mock AWS
+- ✅ Enforces code review gates via pull requests
+- ✅ Automatically deploys to production on merge
+- ✅ Maintains consistent state across environments
+
+### 🐛 Troubleshooting
+
+If any final logs or configuration mappings flag unexpected syntax anomalies as you execute these workflows on your system repository, please share the details with me to patch things up immediately!
