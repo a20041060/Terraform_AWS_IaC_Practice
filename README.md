@@ -20,12 +20,24 @@ terraform-masterclass/
 │           ├── main.tf
 │           └── variables.tf
 │
-└── 📁 04-secure-remote-backend/
-    ├── main.tf
-    └── 📁 modules/
-        └── 📁 network/                     (Copied from lab 02)
-            ├── main.tf
-            └── variables.tf
+├── 📁 04-secure-remote-backend/
+│   ├── main.tf
+│   └── 📁 modules/
+│       └── 📁 network/                     (Copied from lab 02)
+│           ├── main.tf
+│           └── variables.tf
+│
+├── 📁 05-hybrid-cloud-variables/           # (Lesson 5)
+│   ├── main.tf
+│   ├── aws.backend.tfvars
+│   ├── localstack.backend.tfvars
+│   └── 📁 modules/
+│       └── 📁 network/                     (Copied from lab 02)
+│
+└── 📁 06-github-actions-cicd/              # (Lesson 6)
+    └── 📁 .github/
+        └── 📁 workflows/
+            └── terraform-pipeline.yml
 ```
 
 ## 🛠️ Lab Global Setup (Prerequisites)
@@ -83,11 +95,11 @@ Mock AWS Cloud Environment (LocalStack Region: us-east-1)
 
 ## 🗂️ Folder 4: Secure Remote Backend & State Locking
 
-**Target Skill:** Production Grade CI/CD Safety. Migrating infrastructure state off your local hard drive into cloud buckets while engineering database mutex locks (DynamoDB) to permanently eliminate race conditions during concurrent deployments.
+**Target Skill:** Production Grade CI/CD Safety. Migrating infrastructure state off your local hard drive into cloud buckets while engineering database mutex locks (DynamoDB) to permanently eliminate [...]
 
 **Execution:** Run `cd ../04-secure-remote-backend && terraform init -migrate-state`. Type yes when prompted to upload your system state file into the background mock S3 engine.
 
-**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state lock` message, proving the distributed mutex is working.
+**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state [...]
 
 ## 🛑 Post-Lab Deconstruction & Cleanup
 
