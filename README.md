@@ -64,13 +64,30 @@ docker run -d --name my-local-aws -p 4566:4566 -p 4510-4559:4510-4559 localstack
 
 **Execution (Prod Space):** Run `terraform workspace select -or-create prod && terraform apply -auto-approve`
 
+**Infrastructure Architecture (Mock AWS Cloud Environment - LocalStack Region: us-east-1):**
+
+```
+Mock AWS Cloud Environment (LocalStack Region: us-east-1)
+├── 🗄️ DynamoDB (my-local-user-db) <──────────────┐ (Shared across all 3 machines)
+├── 🌐 S3 Bucket (my-terraform-static-website) <────┤ 
+│                                                  │
+├── [ 🌐 Dev VPC (10.0.0.0/16) ]                   │
+│     └── [ Public Subnet (10.0.1.0/24) ]          │
+│           ├── 💻 EC2 (dev-web-server-1) ─────────┤
+│           ├── 💻 EC2 (dev-web-server-2) ─────────┤
+│           └── 💻 EC2 (dev-web-server-3) ─────────┘
+│
+└── [ 🌐 Prod VPC (172.16.0.0/16) ]
+      └── [ Public Subnet (172.16.1.0/24) ]
+```
+
 ## 🗂️ Folder 4: Secure Remote Backend & State Locking
 
-**Target Skill:** Production Grade CI/CD Safety. Migrating infrastructure state off your local hard drive into cloud buckets while engineering database mutex locks (DynamoDB) to permanently eliminate team race conditions.
+**Target Skill:** Production Grade CI/CD Safety. Migrating infrastructure state off your local hard drive into cloud buckets while engineering database mutex locks (DynamoDB) to permanently eliminate race conditions during concurrent deployments.
 
 **Execution:** Run `cd ../04-secure-remote-backend && terraform init -migrate-state`. Type yes when prompted to upload your system state file into the background mock S3 engine.
 
-**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state lock!` database prevention shield.
+**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state lock` message, proving the distributed mutex is working.
 
 ## 🛑 Post-Lab Deconstruction & Cleanup
 
