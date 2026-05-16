@@ -99,7 +99,23 @@ Mock AWS Cloud Environment (LocalStack Region: us-east-1)
 
 **Execution:** Run `cd ../04-secure-remote-backend && terraform init -migrate-state`. Type yes when prompted to upload your system state file into the background mock S3 engine.
 
-**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. You will see a beautiful `Error: Error acquiring the state [...]
+Ensure your LocalStack container is running, execute the manual lock creation command via CLI first to break the paradox loop, and initialize:
+
+```
+# 1. Create the lock table in LocalStack
+AWS_ACCESS_KEY_ID=mock_key AWS_SECRET_ACCESS_KEY=mock_secret aws dynamodb create-table \
+  --table-name terraform-lock-table \
+  --attribute-definitions AttributeName=LockID,AttributeType=S \
+  --key-schema AttributeName=LockID,KeyType=HASH \
+  --billing-mode PAY_PER_REQUEST \
+  --endpoint-url=http://localhost:4566 \
+  --region=us-east-1
+
+# 2. Run the secure state synchronization migration tool
+terraform init -migrate-state
+```
+
+**Verification:** Run `terraform apply`. While it waits for approval, open a separate terminal pane and try running `terraform apply` again. 
 
 ## 🛑 Post-Lab Deconstruction & Cleanup
 
