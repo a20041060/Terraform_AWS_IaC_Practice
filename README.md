@@ -112,3 +112,36 @@ docker rm -f my-local-aws
 # Terminate the background linux hypervisor core
 colima stop
 ```
+
+## 🗂️ Lesson 5: Hybrid Cloud Architecture & Decoupled Configurations
+
+**Target Skill:** Dual-mode abstraction. Upgrading structural definitions to alternate smoothly between LocalStack and Real AWS Production without altering core resource blocks.
+
+**Execution:** Copy your networking modules folder into this directory, then explicitly inject the backend configuration files during initialization:
+
+```bash
+terraform init -backend-config=localstack.backend.tfvars
+```
+
+**Hybrid Cloud Flexibility:** This lesson demonstrates how to maintain a single Terraform configuration that seamlessly switches between environments:
+
+- **LocalStack Mode:** Use `terraform init -backend-config=localstack.backend.tfvars` to deploy to mock AWS locally
+- **Production AWS Mode:** Use `terraform init -backend-config=aws.backend.tfvars` to deploy to real AWS infrastructure
+
+**Key Concepts:**
+- Backend abstraction through external tfvars files
+- Provider endpoint configuration for multi-cloud compatibility
+- State isolation between environments
+- Consistent resource definitions across deployment targets
+
+**Verification (LocalStack):** After applying with localstack backend:
+```bash
+AWS_ACCESS_KEY_ID=mock AWS_SECRET_ACCESS_KEY=mock aws s3 ls --endpoint-url=http://localhost:4566
+```
+
+**Verification (AWS):** After applying with aws backend:
+```bash
+aws s3 ls
+```
+
+This architecture enables your team to develop and test infrastructure locally before confidently deploying to production AWS accounts.
